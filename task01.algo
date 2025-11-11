@@ -1,0 +1,55 @@
+program Task01_SetsSum;
+
+const
+    MAX = 100;
+
+type
+    TIntArray = array[1..MAX] of Integer;
+
+var
+    A, B: TIntArray;
+    NA, NB: Integer;
+    totalSum: Integer;
+
+procedure ReadArray(var Arr: TIntArray; var n: Integer);
+var
+    i: Integer;
+begin
+    ReadLn(n);               { first line: number of elements }
+    if n > MAX then
+        n := MAX;
+    if n < 0 then
+        n := 0;
+    for i := 1 to n do
+        ReadLn(Arr[i]);     { next n lines: elements }
+end;
+
+function SumUniqueFromTo(Arr1: TIntArray; len1: Integer;
+                        Arr2: TIntArray; len2: Integer): Integer;
+var
+    i, j: Integer;
+    isPresent: Boolean;
+begin
+    SumUniqueFromTo := 0;
+    for i := 1 to len1 do
+    begin
+        isPresent := False;
+        for j := 1 to len2 do
+            if Arr1[i] = Arr2[j] then
+            begin
+                isPresent := True;
+                Break;
+            end;
+        if not isPresent then
+            SumUniqueFromTo := SumUniqueFromTo + Arr1[i];
+    end;
+end;
+
+begin
+    ReadArray(A, NA);
+    ReadArray(B, NB);
+
+    totalSum := SumUniqueFromTo(A, NA, B, NB) + SumUniqueFromTo(B, NB, A, NA);
+
+    WriteLn('Sum of elements present in one set but not the other = ', totalSum);
+end.
